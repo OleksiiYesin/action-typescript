@@ -20,12 +20,12 @@ async function run() {
         let stateFiles = fs.readFileSync(`${dir}/${stateFile}`);
         let obj = JSON.parse(stateFiles);
         const shareInfoLen = Object.keys(obj.resources).length; 
+        console.log(shareInfoLen);
         const maxAttempts = 3;
         let attempt = 0;
         while (attempt < maxAttempts) {
             attempt++
             if (shareInfoLen != 0) {
-                console.log(shareInfoLen);
                 console.log(`Destroying terraform attempt ${attempt}`);
             } else {
                 console.log(`Not resources on attempt ${attempt}`);
