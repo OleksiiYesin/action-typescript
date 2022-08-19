@@ -9,6 +9,7 @@ async function run() {
         if (fs.existsSync(`${dir}/${stateFile}`)) {
             console.log("continue");
         } else {
+            console.log(`${dir}/${stateFile}`);
             console.log("stop");
         }
     }
@@ -25,6 +26,7 @@ async function run() {
         while (attempt < maxAttempts) {
             attempt++
             if (shareInfoLen != 0) {
+                console.log(shareInfoLen);
                 console.log(`Destroying terraform attempt ${attempt}`);
             } else {
                 console.log(`Not resources on attempt ${attempt}`);
