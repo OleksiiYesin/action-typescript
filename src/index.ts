@@ -1,12 +1,12 @@
 const core = require('@actions/core');
 const fs = require('fs');
 const path = require('path');
-const dir = core.getInput('./dir');
-const stateFile = 'terraform.tfstate'
+const dir = core.getInput('dir');
+const tf = core.getInput('state_file');
 
 async function run() {
     try {    
-        if (fs.existsSync(`${dir}/terraform.tfstate`)) {
+        if (fs.existsSync(`${dir}/${tf}`)) {
             console.log("continue");
         } else {
             console.log("stop");
@@ -17,7 +17,7 @@ async function run() {
     }
 
     try {   
-        let stateFiles = fs.readFileSync(`${dir}/terraform.tfstate`);
+        let stateFiles = fs.readFileSync(`${dir}/${tf}`);
         let obj = JSON.parse(stateFiles);
         const shareInfoLen = Object.keys(obj.resources).length; 
         console.log(shareInfoLen);

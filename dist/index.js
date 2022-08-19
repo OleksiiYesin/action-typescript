@@ -2807,11 +2807,11 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(186);
 const fs = __nccwpck_require__(147);
 const path = __nccwpck_require__(17);
-const dir = core.getInput('./dir');
-const stateFile = 'terraform.tfstate';
+const dir = core.getInput('dir');
+const tf = core.getInput('state_file');
 async function run() {
     try {
-        if (fs.existsSync(`${dir}/terraform.tfstate`)) {
+        if (fs.existsSync(`${dir}/${tf}`)) {
             console.log("continue");
         }
         else {
@@ -2822,7 +2822,7 @@ async function run() {
         core.console.error("failed");
     }
     try {
-        let stateFiles = fs.readFileSync(`${dir}/terraform.tfstate`);
+        let stateFiles = fs.readFileSync(`${dir}/${tf}`);
         let obj = JSON.parse(stateFiles);
         const shareInfoLen = Object.keys(obj.resources).length;
         console.log(shareInfoLen);

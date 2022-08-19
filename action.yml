@@ -7,6 +7,9 @@ inputs:
     description: Directory
     required: false
     default: '/'
+  state_file:
+    required: false
+    default: 'terraform.tfstate'
 runs:
   using: 'node12'
   main: 'dist/index.js'
