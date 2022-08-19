@@ -29,4 +29,4 @@ jobs:
       - name: Run my action
         uses: ./
         with:
-          dir: dir
+          dir: './dir'

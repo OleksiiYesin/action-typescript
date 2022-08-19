@@ -1,8 +1,8 @@
 const core = require('@actions/core');
 const fs = require('fs');
 const path = require('path');
-const dir = core.getInput('dir');
-const stateFile = 'terraform.tfstate';
+const dir = core.getInput('./dir');
+const stateFile = 'terraform.tfstate'
 
 async function run() {
     try {    
