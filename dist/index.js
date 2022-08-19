@@ -2815,7 +2815,6 @@ async function run() {
             console.log("continue");
         }
         else {
-            console.log(`${dir}/${stateFile}`);
             console.log("stop");
         }
     }

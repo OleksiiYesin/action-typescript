@@ -9,7 +9,6 @@ async function run() {
         if (fs.existsSync(`${dir}/${stateFile}`)) {
             console.log("continue");
         } else {
-            console.log(`${dir}/${stateFile}`);
             console.log("stop");
         }
     }
