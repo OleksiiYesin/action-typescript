@@ -1,0 +1,12 @@
+name: 'Consonant vowel ratio'
+author: 'Oleksii'
+description: 'Custom GH action with TypeScript'
+
+inputs:
+  name:
+    description: 'Name to greet'
+    required: false
+    default: 'Maks'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
