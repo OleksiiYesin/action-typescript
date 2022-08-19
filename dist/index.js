@@ -2807,14 +2807,15 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(186);
 const fs = __nccwpck_require__(147);
 const path = __nccwpck_require__(17);
-const dir = core.getInput('dir');
+const dir = core.getInput('./dir');
 const stateFile = 'terraform.tfstate';
 async function run() {
     try {
-        if (fs.existsSync(`${dir}./${stateFile}`)) {
+        if (fs.existsSync(`${dir}/${stateFile}`)) {
             console.log("continue");
         }
         else {
+            console.log(`${dir}/${stateFile}`);
             console.log("stop");
         }
     }
@@ -2830,6 +2831,7 @@ async function run() {
         while (attempt < maxAttempts) {
             attempt++;
             if (shareInfoLen != 0) {
+                console.log(shareInfoLen);
                 console.log(`Destroying terraform attempt ${attempt}`);
             }
             else {
