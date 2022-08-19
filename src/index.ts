@@ -6,7 +6,7 @@ const stateFile = 'terraform.tfstate';
 
 async function run() {
     try {    
-        if (fs.existsSync(`${dir}./${stateFile}`)) {
+        if (fs.existsSync(`${dir}/${stateFile}`)) {
             console.log("continue");
         } else {
             console.log("stop");
