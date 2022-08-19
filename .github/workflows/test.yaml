@@ -30,3 +30,6 @@ jobs:
         uses: ./
         with:
           dir: './dir'
+      - name: Debug
+        run: |
+          ls ./dir
