@@ -3,6 +3,7 @@ import { execSync } from 'child_process';
 import * as core from '@actions/core';
 const dir = core.getInput('work_dir');
 const maxAttempts: any = core.getInput('max_attempts');
+const dryRun: any = core.getInput('dry_run');
 const state = 'terraform.tfstate'
 
 async function run() {
@@ -18,19 +19,16 @@ async function run() {
         throw e;
     }
 }
-namespace Parse {
-        const stateFile = fs.readFileSync(`${dir}/${state}`);
-        const obj = JSON.parse(stateFile.toString());
-        export const shareInfoLen = Object.keys(obj.resources).length;
-}
-
 
 async function destroy() {
     try {
+        // parsing terraform.tfstate file
+        const stateFile = fs.readFileSync(`${dir}/${state}`);
+        const obj = JSON.parse(stateFile.toString());
+        const shareInfoLen = Object.keys(obj.resources).length;
+        // destroying resources
         let destroyResources = execSync(`cd ${dir} && terraform destroy --auto-approve`).toString();
-        const shareInfoLen = Parse.shareInfoLen
         let attempt = 0;
-        let dryRun = 0;
         while (attempt < maxAttempts) {
             attempt++;
             if (shareInfoLen != 0) {
