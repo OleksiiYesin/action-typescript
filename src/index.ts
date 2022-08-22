@@ -18,13 +18,17 @@ async function run() {
         throw e;
     }
 }
+namespace Parse {
+        const stateFile = fs.readFileSync(`${dir}/${state}`);
+        const obj = JSON.parse(stateFile.toString());
+        export const shareInfoLen = Object.keys(obj.resources).length;
+}
+
 
 async function destroy() {
     try {
-        let stateFile = fs.readFileSync(`${dir}/${state}`);
-        let obj = JSON.parse(stateFile.toString());
-        let shareInfoLen = Object.keys(obj.resources).length;
         let destroyResources = execSync(`cd ${dir} && terraform destroy --auto-approve`).toString();
+        const shareInfoLen = Parse.shareInfoLen
         let attempt = 0;
         let dryRun = 0;
         while (attempt < maxAttempts) {
