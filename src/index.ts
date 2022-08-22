@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import { execSync } from 'child_process';
 import * as core from '@actions/core';
+import { getStdOutput } from './res/utils';
 
 
 const dir               = core.getInput('work_dir');
@@ -26,7 +27,7 @@ async function destroy() {
         const obj = JSON.parse(stateFile.toString());
         const shareInfoLen = Object.keys(obj.resources).length;
         // destroying resources
-        let destroyResources = execSync(`cd ${dir} && terraform init && terraform destroy --auto-approve`).toString();
+        const destroyResources = getStdOutput(`terraform -chdir=${dir} init && terraform -chdir=${dir} destroy --auto-approve`, []);
         let attempt = 0;
         while (attempt < maxAttempts) {
             attempt++;
@@ -35,7 +36,7 @@ async function destroy() {
               core.info(`\n[LOG] Destroying terraform attempt: ${attempt}`);
               if (dryRun === 0) {
                 core.info('[DEBUG] Taking destroy branch')
-                  if (destroyResources) {
+                  if (await destroyResources) {
                     core.info(`[LOG] Resources was destroyed on: ${attempt} [${dryRun}]`)
                     break;
                   } else {
