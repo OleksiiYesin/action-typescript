@@ -37,6 +37,12 @@ jobs:
       #     terraform init
       #     terraform apply --auto-approve
 
+      - name: Debug 
+        run: |
+          ls /
+          echo "-----"
+          ls
+      
       - name: Run my action
         uses: ./
         # with:
