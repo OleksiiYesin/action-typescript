@@ -7,6 +7,11 @@ inputs:
     description: Directory
     required: false
     default: '/'
+  max_attempts:
+    description: Attempts
+    required: false
+    type: number
+    default: 3
 runs:
   using: 'node12'
   main: 'dist/index.js'
