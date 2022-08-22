@@ -13,7 +13,7 @@ async function run() {
     try {
         if (fs.existsSync(`${dir}/${state}`)) {
             await destroy(); 
-        } else if (!dir && fs.existsSync(`${state}`)){
+        } else if (dir.length<1 && fs.existsSync(`${state}`)){
             await destroy();
         } else {
             setFailed('\nFile not exist!')
