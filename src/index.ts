@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import { execSync } from 'child_process';
 import * as core from '@actions/core';
 const dir = core.getInput('work_dir');
+const maxAttempts = core.getInput('max_attempts');
 const state = 'terraform.tfstate'
 
 async function run() {
@@ -23,11 +24,9 @@ async function destroy() {
         let stateFile = fs.readFileSync(`${dir}/${state}`);
         let obj = JSON.parse(stateFile.toString());
         let shareInfoLen = Object.keys(obj.resources).length;
-        
         let destroyResources = execSync(`cd ${dir} && terraform destroy --auto-approve`).toString();
-        const maxAttempts = 3;
         let attempt = 0;
-        let dryRun = 0
+        let dryRun = 0;
         while (attempt < maxAttempts) {
             attempt++;
             if (shareInfoLen != 0) {
