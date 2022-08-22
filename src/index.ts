@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import { execSync } from 'child_process';
 import { setFailed, info, error, getInput, warning} from '@actions/core';
+import { getStdOutput } from './res/utils';
 
 
 const dir               = getInput('work_dir');
@@ -30,7 +31,7 @@ async function destroy() {
         const shareInfoLen = Object.keys(obj.resources).length;
 
         // destroying resources
-        const destroyResources = execSync(`cd ${dir} && terraform init && terraform destroy --auto-approve`);
+        const destroyResources = getStdOutput(`terraform -chdir=${dir} init && terraform -chdir=${dir} destroy --auto-approve`, []);
         let attempt = 0;
         
         while (attempt < maxAttempts) {
