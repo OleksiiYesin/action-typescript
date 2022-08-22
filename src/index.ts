@@ -31,8 +31,8 @@ async function destroy() {
         const shareInfoLen = Object.keys(obj.resources).length;
 
         // destroying resources
-        const destroyResources = async () => {return await getStdOutput('terraform', [ `-chdir=${dir}`, 'init' ])};
-        const destroy = await getStdOutput('terraform', [ `-chdir=${dir}]`, 'destroy', '--auto-approve']);
+        const destroyResources = async () => {return getStdOutput('terraform', [ `-chdir=${dir}`, 'init' ])};
+        const destroy = async () => {return getStdOutput('terraform', [ `-chdir=${dir}]`, 'destroy', '--auto-approve'])};
         let attempt = 0;
         
         while (attempt < maxAttempts) {
@@ -42,7 +42,7 @@ async function destroy() {
               info(`\n[LOG] Destroying terraform attempt: ${attempt}...`);
               if (dryRun === 0) {
                 info('[DEBUG] Taking destroy branch')
-                  if (await destroyResources) {
+                  if (await destroyResources() && await destroy()) {
                     info(`[LOG] Resources was destroyed on: ${attempt} [${dryRun}]`)
                     break;
                   } else {
