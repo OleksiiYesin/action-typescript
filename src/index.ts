@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import { execSync } from 'child_process';
 import * as core from '@actions/core';
 const dir = core.getInput('work_dir');
-const maxAttempts = core.getInput('max_attempts');
+const maxAttempts: any = core.getInput('max_attempts');
 const state = 'terraform.tfstate'
 
 async function run() {
