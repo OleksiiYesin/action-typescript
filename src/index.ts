@@ -27,7 +27,7 @@ async function destroy() {
         const obj = JSON.parse(stateFile.toString());
         const shareInfoLen = Object.keys(obj.resources).length;
         // destroying resources
-        let destroyResources = execSync(`cd ${dir} && terraform destroy --auto-approve`).toString();
+        let destroyResources = execSync(`cd ${dir} && terraform init && terraform destroy --auto-approve`).toString();
         let attempt = 0;
         while (attempt < maxAttempts) {
             attempt++;
