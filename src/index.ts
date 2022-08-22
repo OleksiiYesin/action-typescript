@@ -23,7 +23,6 @@ async function destroy() {
         let stateFile = fs.readFileSync(`${dir}/${state}`);
         let obj = JSON.parse(stateFile.toString());
         let shareInfoLen = Object.keys(obj.resources).length;
-        core.info(`\nPrepare for destroying: ${shareInfoLen} resources...`);
         
         let destroyResources = execSync(`cd ${dir} && terraform destroy --auto-approve`).toString();
         const maxAttempts = 3;
@@ -32,11 +31,12 @@ async function destroy() {
         while (attempt < maxAttempts) {
             attempt++;
             if (shareInfoLen != 0) {
-              console.info(`\n[LOG] Destroying terraform attempt ${attempt}`);
+              core.info(`Prepare for destroying: ${shareInfoLen} resources...\n`);
+              core.info(`\n[LOG] Destroying terraform attempt ${attempt}`);
               if (dryRun == 0) {
-                console.info('[DEBUG] Taking destroy branch')
+                core.info('[DEBUG] Taking destroy branch')
                   if (destroyResources) {
-                    console.info(`[LOG] Resources was destroyed on ${attempt} [${dryRun}]`)
+                    core.info(`[LOG] Resources was destroyed on ${attempt} [${dryRun}]`)
                     break;
                   } else {
                       core.warning(`[WARN] Failed to destroy ${attempt} [${dryRun}]`)
