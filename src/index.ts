@@ -33,17 +33,17 @@ async function destroy() {
             attempt++;
             if (shareInfoLen != 0) {
               core.info(`Prepare for destroying: ${shareInfoLen} resources...\n`);
-              core.info(`\n[LOG] Destroying terraform attempt_${attempt}`);
+              core.info(`\n[LOG] Destroying terraform attempt: ${attempt}`);
               if (dryRun === 0) {
                 core.info('[DEBUG] Taking destroy branch')
                   if (destroyResources) {
-                    core.info(`[LOG] Resources was destroyed on ${attempt} [${dryRun}]`)
+                    core.info(`[LOG] Resources was destroyed on: ${attempt} [${dryRun}]`)
                     break;
                   } else {
-                      core.warning(`[WARN] Failed to destroy ${attempt} [${dryRun}]`)
+                      core.warning(`[WARN] Failed to destroy: ${attempt} [${dryRun}]`)
                   }
               } else {
-                  core.info(`[LOG] Destroyed resources on attempt ${attempt}`)
+                  core.info(`[LOG] Destroyed resources on attempt: ${attempt}`)
                   break;
               }
             } else {
