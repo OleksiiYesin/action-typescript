@@ -39,9 +39,9 @@ jobs:
 
       - name: Debug 
         run: |
-          DIR="$HOME/go"
+          DIR="$(mktemp -d)"
           mkdir "$DIR"
-          cp dummy.tf "$DIR"
+          cp dummy.tf "$DIR/"
           cd "$DIR"
           terraform init && terraform apply --auto-approve
       
