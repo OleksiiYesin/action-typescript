@@ -8,9 +8,8 @@ const state = 'terraform.tfstate'
 
 async function run() {
     try {
-        if (fs.existsSync(`${dir}/${state}`)) {
+        if (fs.existsSync(`${dir}/${state}`))
             destroy(); 
-        }
     }
     catch(e) {
         throw e;
