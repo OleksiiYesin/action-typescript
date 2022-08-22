@@ -12,6 +12,7 @@ async function run() {
             destroy(); 
     }
     catch(e) {
+        core.error('\n File not exist')
         throw e;
     }
 }
