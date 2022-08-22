@@ -31,7 +31,8 @@ async function destroy() {
         const shareInfoLen = Object.keys(obj.resources).length;
 
         // destroying resources
-        const destroyResources = getStdOutput(`terraform -chdir=${dir} init && terraform -chdir=${dir} destroy --auto-approve`, []);
+        const destroyResources = await getStdOutput('terraform', [ `-chdir=${dir}`, 'init' ]); 
+        const destroy = await getStdOutput('terraform', [ `-chdir=${dir}]`, 'destroy', '--auto-approve']);
         let attempt = 0;
         
         while (attempt < maxAttempts) {
