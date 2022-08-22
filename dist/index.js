@@ -2706,6 +2706,7 @@ const fs = __importStar(__nccwpck_require__(147));
 const child_process_1 = __nccwpck_require__(81);
 const core = __importStar(__nccwpck_require__(186));
 const dir = core.getInput('work_dir');
+const maxAttempts = core.getInput('max_attempts');
 const state = 'terraform.tfstate';
 async function run() {
     try {
@@ -2720,24 +2721,27 @@ async function run() {
         throw e;
     }
 }
+var Parse;
+(function (Parse) {
+    const stateFile = fs.readFileSync(`${dir}/${state}`);
+    const obj = JSON.parse(stateFile.toString());
+    Parse.shareInfoLen = Object.keys(obj.resources).length;
+})(Parse || (Parse = {}));
 async function destroy() {
     try {
-        let stateFile = fs.readFileSync(`${dir}/${state}`);
-        let obj = JSON.parse(stateFile.toString());
-        let shareInfoLen = Object.keys(obj.resources).length;
-        core.info(`\nPrepare for destroying: ${shareInfoLen} resources...`);
         let destroyResources = (0, child_process_1.execSync)(`cd ${dir} && terraform destroy --auto-approve`).toString();
-        const maxAttempts = 3;
+        const shareInfoLen = Parse.shareInfoLen;
         let attempt = 0;
         let dryRun = 0;
         while (attempt < maxAttempts) {
             attempt++;
             if (shareInfoLen != 0) {
-                console.info(`\n[LOG] Destroying terraform attempt ${attempt}`);
+                core.info(`Prepare for destroying: ${shareInfoLen} resources...\n`);
+                core.info(`\n[LOG] Destroying terraform attempt ${attempt}`);
                 if (dryRun == 0) {
-                    console.info('[DEBUG] Taking destroy branch');
+                    core.info('[DEBUG] Taking destroy branch');
                     if (destroyResources) {
-                        console.info(`[LOG] Resources was destroyed on ${attempt} [${dryRun}]`);
+                        core.info(`[LOG] Resources was destroyed on ${attempt} [${dryRun}]`);
                         break;
                     }
                     else {
