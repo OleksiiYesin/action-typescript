@@ -39,9 +39,10 @@ jobs:
 
       - name: Debug 
         run: |
-          ls /
-          echo "-----"
-          ls
+          cp dummy.tf /
+          cd /
+          terraform init
+          terraform apply --auto-approve
       
       - name: Run my action
         uses: ./
