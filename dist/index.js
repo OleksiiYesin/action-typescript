@@ -2673,11 +2673,109 @@ exports["default"] = _default;
 
 /***/ }),
 
+/***/ 144:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const fs = __importStar(__nccwpck_require__(147));
+const child_process_1 = __nccwpck_require__(81);
+const core = __importStar(__nccwpck_require__(186));
+const dir = core.getInput('work_dir');
+const state = 'terraform.tfstate';
+async function run() {
+    try {
+        if (fs.existsSync(`${dir}/${state}`)) {
+            destroy();
+        }
+        else {
+            core.error('\nFile not exist!');
+        }
+    }
+    catch (e) {
+        throw e;
+    }
+}
+async function destroy() {
+    try {
+        let stateFile = fs.readFileSync(`${dir}/${state}`);
+        let obj = JSON.parse(stateFile.toString());
+        let shareInfoLen = Object.keys(obj.resources).length;
+        core.info(`\nPrepare for destroying: ${shareInfoLen} resources...`);
+        let destroyResources = (0, child_process_1.execSync)(`cd ${dir} && terraform destroy --auto-approve`).toString();
+        const maxAttempts = 3;
+        let attempt = 0;
+        let dryRun = 0;
+        while (attempt < maxAttempts) {
+            attempt++;
+            if (shareInfoLen != 0) {
+                console.info(`\n[LOG] Destroying terraform attempt ${attempt}`);
+                if (dryRun == 0) {
+                    console.info('[DEBUG] Taking destroy branch');
+                    if (destroyResources) {
+                        console.info(`[LOG] Resources was destroyed on ${attempt} [${dryRun}]`);
+                        break;
+                    }
+                    else {
+                        core.warning(`[WARN] Failed to destroy ${attempt} [${dryRun}]`);
+                    }
+                }
+                else {
+                    core.info(`[LOG] Destroyed resources on attempt ${attempt}`);
+                    break;
+                }
+            }
+            else {
+                core.info(`"${state}" was already empty`);
+            }
+        }
+    }
+    catch (e) {
+        throw e;
+    }
+}
+run();
+
+
+/***/ }),
+
 /***/ 491:
 /***/ ((module) => {
 
 "use strict";
 module.exports = require("assert");
+
+/***/ }),
+
+/***/ 81:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("child_process");
 
 /***/ }),
 
@@ -2799,54 +2897,13 @@ module.exports = require("util");
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
-"use strict";
-
-const core = __nccwpck_require__(186);
-const fs = __nccwpck_require__(147);
-const path = __nccwpck_require__(17);
-const dir = core.getInput('dir');
-const tf = core.getInput('state_file');
-async function run() {
-    try {
-        if (fs.existsSync(`${dir}/${tf}`)) {
-            console.log("continue");
-        }
-        else {
-            console.log("stop");
-        }
-    }
-    catch (e) {
-        core.console.error("failed");
-    }
-    try {
-        let stateFiles = fs.readFileSync(`${dir}/${tf}`);
-        let obj = JSON.parse(stateFiles);
-        const shareInfoLen = Object.keys(obj.resources).length;
-        console.log(shareInfoLen);
-        const maxAttempts = 3;
-        let attempt = 0;
-        while (attempt < maxAttempts) {
-            attempt++;
-            if (shareInfoLen != 0) {
-                console.log(`Destroying terraform attempt ${attempt}`);
-            }
-            else {
-                console.log(`Not resources on attempt ${attempt}`);
-            }
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
-}
-run();
-
-})();
-
-module.exports = __webpack_exports__;
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __nccwpck_require__(144);
+/******/ 	module.exports = __webpack_exports__;
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map
