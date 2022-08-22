@@ -9,9 +9,7 @@ const state = 'terraform.tfstate'
 async function run() {
     try {
         if (fs.existsSync(`${dir}/${state}`)) {
-            destroy();
-        } else {
-            throw console.error('\nFile not exist!');
+            destroy(); 
         }
     }
     catch(e) {
