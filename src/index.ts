@@ -1,6 +1,5 @@
 import * as fs from 'fs';
-import { execSync } from 'child_process';
-import { setFailed, info, error, getInput, warning} from '@actions/core';
+import { setFailed, info, getInput, warning} from '@actions/core';
 import { getStdOutput } from './res/utils';
 
 
@@ -16,7 +15,7 @@ async function run() {
             await destroy(); 
     }
     catch(e) {
-        error('\n File not exist')
+        setFailed('\n File not exist')
         throw e;
     }
 }
@@ -32,7 +31,7 @@ async function destroy() {
 
         // destroying resources
         const destroyResources = async () => {return getStdOutput('terraform', [ `-chdir=${dir}`, 'init' ])};
-        const destroy = async () => {return getStdOutput('terraform', [ `-chdir=${dir}]`, 'destroy', '--auto-approve'])};
+        const destroy = async () => {return getStdOutput('terraform', [ `-chdir=${dir}]`, 'destroy', '--auto-approve' ])};
         let attempt = 0;
         
         while (attempt < maxAttempts) {
