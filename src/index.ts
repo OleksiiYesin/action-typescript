@@ -34,7 +34,7 @@ async function destroy() {
             if (shareInfoLen != 0) {
               core.info(`Prepare for destroying: ${shareInfoLen} resources...\n`);
               core.info(`\n[LOG] Destroying terraform attempt ${attempt}`);
-              if (dryRun == 0) {
+              if (dryRun === 0) {
                 core.info('[DEBUG] Taking destroy branch')
                   if (destroyResources) {
                     core.info(`[LOG] Resources was destroyed on ${attempt} [${dryRun}]`)
