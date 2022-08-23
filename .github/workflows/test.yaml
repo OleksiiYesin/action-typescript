@@ -31,26 +31,22 @@ jobs:
         with:
           terraform_version: 1.1.7
 
-      # - name: Init and Apply terraform
+      - name: Init and Apply terraform
+        run: |
+          cd ./dir
+          terraform init
+          terraform apply --auto-approve
+
+      # - name: Debug 
       #   run: |
-      #     cd ./dir
-      #     terraform init
-      #     terraform apply --auto-approve
-
-      - name: Debug 
-        run: |
-          DIR="$(mktemp -d)"
-          cp dummy.tf "$DIR"
-          cd "$DIR"
-          terraform init && terraform apply --auto-approve
-          echo "::set-output name=dir::$DIR"
+      #     DIR="$(mktemp -d)"
+      #     cp dummy.tf "$DIR"
+      #     cd "$DIR"
+      #     terraform init && terraform apply --auto-approve
+      #     echo "::set-output name=dir::$DIR"
       
-      - name: Script
-        run: |
-          chmod +x script.sh
-          ./script.sh
 
-      # - name: Run my action
-      #   uses: ./
-      #   # with:
-      #   #   work_dir: './dir'
+      - name: Run my action
+        uses: ./
+        with:
+          work_dir: './dir'
