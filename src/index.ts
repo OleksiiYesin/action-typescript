@@ -11,7 +11,6 @@ const state             = 'terraform.tfstate'
 
 async function run() {
     try {
-
         if (fs.existsSync(`${dir}/${state}`)) {
             info(``);
             await destroy(); 
@@ -44,10 +43,10 @@ async function loop() {
     const destroyResources = async () => {return getStdOutput('terraform', [ `-chdir=${dir}`, 'init' ])};
     const destroy          = async () => {return getStdOutput('terraform', [ `-chdir=${dir}]`, 'destroy', '--auto-approve' ])};
     let attempt = 0;
-    
+
     do {
         (attempt=0,attempt++);
-        if (shareInfoLen != 0) {
+        if (shareInfoLen !== 0) {
           info(`Prepare for destroying: ${shareInfoLen} resources...\n`);
           info(`\n[LOG] Destroying terraform attempt: ${attempt}...`);
           if (dryRun === 0) {
@@ -66,8 +65,13 @@ async function loop() {
             info(`"${state}" was already empty`);
             break;
         }
-    } while (attempt < maxAttempts)
-}
 
+        if (shareInfoLen !== 0) {
+            setFailed(`[ERROR] Unable to destroy terraform state [${state}]`)
+        }
+
+    } while(attempt < maxAttempts)
+
+}
 
 run().catch(err => setFailed(err.message));
