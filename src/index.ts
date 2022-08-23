@@ -42,11 +42,11 @@ async function loop() {
 
     // destroying resources
     const destroyResources = async () => {return getStdOutput('terraform', [ `-chdir=${dir}`, 'init' ])};
-    const destroy = async () => {return getStdOutput('terraform', [ `-chdir=${dir}]`, 'destroy', '--auto-approve' ])};
+    const destroy          = async () => {return getStdOutput('terraform', [ `-chdir=${dir}]`, 'destroy', '--auto-approve' ])};
     let attempt = 0;
     
     do {
-        attempt++;
+        (attempt=0,attempt++);
         if (shareInfoLen != 0) {
           info(`Prepare for destroying: ${shareInfoLen} resources...\n`);
           info(`\n[LOG] Destroying terraform attempt: ${attempt}...`);
