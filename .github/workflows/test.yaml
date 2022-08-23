@@ -33,7 +33,7 @@ jobs:
 
       - name: Init and Apply terraform
         run: |
-          cd /
+          cd ./dir
           terraform init
           terraform apply --auto-approve
 
@@ -48,5 +48,5 @@ jobs:
 
       - name: Run my action
         uses: ./
-        # with:
-        #   work_dir: './dir'
+        with:
+          work_dir: './dir'
