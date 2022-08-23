@@ -33,7 +33,7 @@ jobs:
 
       - name: Init and Apply terraform
         run: |
-          cd ./dir
+          cd /
           terraform init
           terraform apply --auto-approve
 
