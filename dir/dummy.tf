@@ -24,6 +24,7 @@ resource "null_resource" "dummy_resource" {
   triggers = {
       foo = local.dummy_value
   }
+  
 }
 
 resource "null_resource" "dummy_resource_two" {
