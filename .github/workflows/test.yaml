@@ -42,8 +42,7 @@ jobs:
           whoami
           echo $USER
           echo $GROUP
-          ls -l ~/.npm
-          ls -l ~/.config
+          ls -l /
 
       # - name: Init and apply terraform 
       #   run: |
