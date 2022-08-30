@@ -39,6 +39,7 @@ jobs:
       
       - name: Debug
         run: |
+          pwd
           ls -la
 
       # - name: Init and apply terraform 
