@@ -40,16 +40,16 @@ jobs:
       - name: Debug
         run: |
           echo $HOME
-          ls -la
+          ls -la $HOME
 
-      - name: Init and apply terraform 
-        run: |
-          mkdir bla
-          DIR="bla"
-          cp dummy.tf "$DIR"
-          cd "$DIR"
-          terraform init && terraform apply --auto-approve
-          echo "::set-output name=dir::$DIR"
+      # - name: Init and apply terraform 
+      #   run: |
+      #     mkdir bla
+      #     DIR="bla"
+      #     cp dummy.tf "$DIR"
+      #     cd "$DIR"
+      #     terraform init && terraform apply --auto-approve
+      #     echo "::set-output name=dir::$DIR"
 
       - name: Run my action
         uses: ./
