@@ -42,6 +42,7 @@ jobs:
           whoami
           echo $HOME
           ls -la $HOME
+          chown -R root .
 
       # - name: Init and apply terraform 
       #   run: |
