@@ -4,7 +4,7 @@
   "description": "Action for destroying statefiles",
   "main": "dist/index.js",
   "scripts": {
-    "build": "sudo ncc build src/index.ts --source-map --license licenses.txt --out dist",
+    "build": "ncc build src/index.ts --source-map --license licenses.txt --out dist",
     "start": "sudo tsc-node src/index.ts"
   },
   "repository": {
