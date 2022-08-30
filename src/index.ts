@@ -1,77 +1,137 @@
 import * as fs from 'fs';
 import { setFailed, info, getInput, warning} from '@actions/core';
+import * as path from 'path';
 import { getStdOutput } from './res/utils';
 
 
-const dir               = getInput('work_dir');
-const maxAttempts: any  = getInput('max_attempts');
-const dryRun: any       = getInput('dry_run');
-const state             = 'terraform.tfstate'
+
+// const dir        : string  = './';
+// const maxAttempts: number  = 3;
+// const dryRun     : boolean = false;
+
+
+const dir: string  = getInput('work_dir');
+// const maxAttempts  = getInput('max_attempts');
+// const dryRun      : boolean = getInput('dry_run');
+// const state       : any     = fs.readdirSync(dir).filter(fn => fn.endsWith('.tfstate'))
+
 
 
 async function run() {
     try {
-        if (fs.existsSync(`${dir}/${state}`)) {
-            info(``);
-            await destroy(); 
-        } else {
-            setFailed('\nFile not exist!')
-        }        
+        await outputAllFolders(([path.resolve(dir)]));        
     }
     catch(e) {
         throw e;
     }
 }
 
-async function destroy() {
-    try {
-        await loop();
+// async function destroy() {
+//     try {
+//         await loop();
+//     }
+//     catch(e) {
+//         throw e;
+//     }
+// }
 
-    }
-    catch(e) {
-        throw e;
-    }
-}
+// async function loop() {
+//      // parsing terraform.tfstate file
+//     const stateFile = fs.readFileSync(`${dir}/${state}`);
+//     const obj = JSON.parse(stateFile.toString());
+//     const shareInfoLen = Object.keys(obj.resources).length;
+//     console.log(shareInfoLen);
+    
 
-async function loop() {
-     // parsing terraform.tfstate file
-    const stateFile = fs.readFileSync(`${dir}/${state}`);
-    const obj = JSON.parse(stateFile.toString());
-    const shareInfoLen = Object.keys(obj.resources).length;
+//     // destroying resources
+//     const destroyResources = async () => {return getStdOutput('terraform', [ `-chdir=${dir}`, 'init' ])};
+//     const destroy          = async () => {return getStdOutput('terraform', [ `-chdir=${dir}`, 'destroy', '--auto-approve' ])};
+//     let attempt: number    = 0;
 
-    // destroying resources
-    const destroyResources = async () => {return getStdOutput('terraform', [ `-chdir=${dir}`, 'init' ])};
-    const destroy          = async () => {return getStdOutput('terraform', [ `-chdir=${dir}]`, 'destroy', '--auto-approve' ])};
-    let attempt = 0;
+//     do {
+//         (attempt=0,attempt++);
+//         if (shareInfoLen !== 0) {
+//           info(`Prepare for destroying: ${shareInfoLen} resources...\n`);
+//           info(`\n[LOG] Destroying terraform attempt: ${attempt}...`);
+//           if (dryRun === false) {
+//             info('[DEBUG] Taking destroy branch')
+//               if (await destroyResources() && await destroy()) {
+//                 info(`[LOG] Resources was destroyed on: ${attempt} [${dryRun}]`)
+//                 break;
+//               } else {
+//                   warning(`[WARN] Failed to destroy: ${attempt} [${dryRun}]`)
+//               }
+//           } else {
+//               info(`[LOG] Destroyed resources on attempt: ${attempt}`)
+//               break;
+//           }
+//         } else {
+//             info(`"${state}" was already empty`);
+//             break;
+//         }
 
-    do {
-        (attempt=0,attempt++);
-        if (shareInfoLen !== 0) {
-          info(`Prepare for destroying: ${shareInfoLen} resources...\n`);
-          info(`\n[LOG] Destroying terraform attempt: ${attempt}...`);
-          if (dryRun === 0) {
-            info('[DEBUG] Taking destroy branch')
-              if (await destroyResources() && await destroy()) {
-                info(`[LOG] Resources was destroyed on: ${attempt} [${dryRun}]`)
-                break;
+//         if (shareInfoLen !== 0) {
+//             setFailed(`[ERROR] Unable to destroy terraform state [${state}]`)
+//         }
+
+//     } while(attempt < maxAttempts)    
+// }
+
+async function outputAllFolders(folderPaths: string[]) {
+    folderPaths.forEach(folderPath => {
+        const results          = fs.readdirSync(folderPath);
+        const folders          = results.filter(res => fs.lstatSync(path.resolve(folderPath, res)).isDirectory())
+        const innerFolderPaths = folders.map(folder => path.resolve(folderPath, folder))
+        
+        if(innerFolderPaths.length === 0) {
+          return
+        }
+        
+        innerFolderPaths.forEach(innerFolder => {
+          
+            const stateFile        = fs.readdirSync(innerFolder, { withFileTypes: true });
+            const init             = async () => {return getStdOutput('terraform', [ `-chdir=${innerFolder}`, 'init' ])};
+            const destroy          = async () => {return getStdOutput('terraform', [ `-chdir=${innerFolder}`, 'destroy', '--auto-approve' ])};
+            
+          stateFile.forEach(async (item) => {
+            
+            if (path.extname(item.name) === ".tfstate") {
+              const reader = fs.readFileSync(`${innerFolder}/${item.name}`)
+              
+              if (reader.length !== 0) {
+                const json = JSON.parse(reader.toString())
+                const shareInfoLen = Object.keys(json.resources).length;
+                
+                if(shareInfoLen !== 0) {
+                  console.log(`\n${innerFolder}/${item.name} has ${shareInfoLen} resource(s)!`);
+                  console.log(`Destroying ${shareInfoLen} resource(s)....` );
+              
+                  if(await init() && await destroy()){
+                    console.log(`${shareInfoLen} resource(s) was succesfully destroyed!`);
+                  } else {
+                    console.log(`FAILED`);   
+                  }
+
+                } else {
+                  console.log(`Not resource(s) in ${innerFolder}/${item.name}`);  
+                }
+                
               } else {
-                  warning(`[WARN] Failed to destroy: ${attempt} [${dryRun}]`)
+                console.log(`${innerFolder}/${item.name} is empty!`);    
               }
-          } else {
-              info(`[LOG] Destroyed resources on attempt: ${attempt}`)
-              break;
+
+            } else {
+                return;
+                
+            }
+          });
+
+          if(stateFile.length === 0) {
+          return
           }
-        } else {
-            info(`"${state}" was already empty`);
-            break;
-        }
-
-        if (shareInfoLen !== 0) {
-            setFailed(`[ERROR] Unable to destroy terraform state [${state}]`)
-        }
-
-    } while(attempt < maxAttempts)
-
+        })
+        outputAllFolders(innerFolderPaths)    
+    })       
 }
 
 run().catch(err => setFailed(err.message));
