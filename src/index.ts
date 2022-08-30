@@ -5,14 +5,14 @@ import { getStdOutput } from './res/utils';
 
 
 
-const dir        : string  = '/';
+// const dir        : string  = '/';
 
 
 // const maxAttempts: number  = 3;
 // const dryRun     : boolean = false;
 
 
-// const dir: string  = getInput('work_dir');
+const dir: string  = getInput('work_dir');
 // const maxAttempts  = getInput('max_attempts');
 // const dryRun      : boolean = getInput('dry_run');
 // const state       : any     = fs.readdirSync(dir).filter(fn => fn.endsWith('.tfstate'))
