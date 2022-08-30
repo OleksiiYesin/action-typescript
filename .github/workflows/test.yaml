@@ -39,6 +39,7 @@ jobs:
       
       - name: Debug
         run: |
+          whoami
           echo $HOME
           ls -la $HOME
 
