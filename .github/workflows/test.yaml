@@ -54,4 +54,4 @@ jobs:
       - name: Run my action
         uses: ./
         with:
-          work_dir: '$HOME'
+          work_dir: './'
