@@ -8,7 +8,7 @@ on:
 jobs:
   run-action:
     name: Run action
-    runs-on: ubuntu-latest
+    runs-on: ['self-hosted', 'Linux']
 
     steps:
       - uses: actions/checkout@v2
@@ -42,16 +42,16 @@ jobs:
           echo $HOME
           ls -la $HOME
 
-      # - name: Init and apply terraform 
-      #   run: |
-      #     mkdir bla
-      #     DIR="bla"
-      #     cp dummy.tf "$DIR"
-      #     cd "$DIR"
-      #     terraform init && terraform apply --auto-approve
-      #     echo "::set-output name=dir::$DIR"
+      - name: Init and apply terraform 
+        run: |
+          mkdir bla
+          DIR="bla"
+          cp dummy.tf "$DIR"
+          cd "$DIR"
+          terraform init && terraform apply --auto-approve
+          echo "::set-output name=dir::$DIR"
 
       - name: Run my action
         uses: ./
         with:
-          work_dir: '/'
+          work_dir: '$HOME'
