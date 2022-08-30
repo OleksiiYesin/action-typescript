@@ -44,6 +44,7 @@ jobs:
 
       - name: Init and apply terraform 
         run: |
+          mkdir bla
           DIR="bla"
           cp dummy.tf "$DIR"
           cd "$DIR"
