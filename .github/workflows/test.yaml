@@ -43,14 +43,14 @@ jobs:
           echo $HOME
           ls -la $HOME
 
-      - name: Init and apply terraform 
-        run: |
-          mkdir bla
-          DIR="bla"
-          cp dummy.tf "$DIR"
-          cd "$DIR"
-          terraform init && terraform apply --auto-approve
-          echo "::set-output name=dir::$DIR"
+      # - name: Init and apply terraform 
+      #   run: |
+      #     mkdir bla
+      #     DIR="bla"
+      #     cp dummy.tf "$DIR"
+      #     cd "$DIR"
+      #     terraform init && terraform apply --auto-approve
+      #     echo "::set-output name=dir::$DIR"
 
       - name: Init and apply terraformsecond
         run: |
