@@ -5,7 +5,7 @@ import { getStdOutput } from './res/utils';
 
 
 
-// const dir        : string  = '/tmp';
+// const dir        : string  = '/home';
 
 
 // const maxAttempts: number  = 3;

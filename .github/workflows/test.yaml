@@ -40,9 +40,10 @@ jobs:
       - name: Debug
         run: |
           whoami
-          echo $HOME
-          ls -la $HOME
-          chown -R root .
+          echo $USER
+          echo $GROUP
+          ls -l ~/.npm
+          ls -l ~/.config
 
       # - name: Init and apply terraform 
       #   run: |
@@ -65,4 +66,4 @@ jobs:
       - name: Run my action
         uses: ./
         with:
-          work_dir: /tmp
+          work_dir: /
