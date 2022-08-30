@@ -1,16 +1,18 @@
 import * as fs from 'fs';
-import { setFailed, info, getInput, warning} from '@actions/core';
 import * as path from 'path';
+import { setFailed, info, getInput, warning} from '@actions/core';
 import { getStdOutput } from './res/utils';
 
 
 
-const dir        : string  = '/';
+// const dir        : string  = '/tmp';
+
+
 // const maxAttempts: number  = 3;
 // const dryRun     : boolean = false;
 
 
-// const dir: string  = getInput('work_dir');
+const dir: string  = getInput('work_dir');
 // const maxAttempts  = getInput('max_attempts');
 // const dryRun      : boolean = getInput('dry_run');
 // const state       : any     = fs.readdirSync(dir).filter(fn => fn.endsWith('.tfstate'))
@@ -89,7 +91,7 @@ async function outputAllFolders(folderPaths: string[]) {
         
         innerFolderPaths.forEach(innerFolder => {
           
-            const stateFile        = fs.readdirSync(innerFolder, { withFileTypes: true });
+            const stateFile        = fs.readdirSync(innerFolder, { withFileTypes: true, encoding: 'utf-8' });
             const init             = async () => {return getStdOutput('terraform', [ `-chdir=${innerFolder}`, 'init' ])};
             const destroy          = async () => {return getStdOutput('terraform', [ `-chdir=${innerFolder}`, 'destroy', '--auto-approve' ])};
             
@@ -100,7 +102,7 @@ async function outputAllFolders(folderPaths: string[]) {
               
               if (reader.length !== 0) {
                 const json = JSON.parse(reader.toString())
-                const shareInfoLen = Object.keys(json.resources).length;
+                const shareInfoLen = Object.keys(json.resources).length;               
                 
                 if(shareInfoLen !== 0) {
                   console.log(`\n${innerFolder}/${item.name} has ${shareInfoLen} resource(s)!`);
@@ -114,8 +116,7 @@ async function outputAllFolders(folderPaths: string[]) {
 
                 } else {
                   console.log(`Not resource(s) in ${innerFolder}/${item.name}`);  
-                }
-                
+                } 
               } else {
                 console.log(`${innerFolder}/${item.name} is empty!`);    
               }
