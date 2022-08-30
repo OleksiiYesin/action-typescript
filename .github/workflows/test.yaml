@@ -36,16 +36,20 @@ jobs:
       #     cd ./dir
       #     terraform init
       #     terraform apply --auto-approve
-
-      - name: Init and apply terraform 
+      
+      - name: Debug
         run: |
-          DIR="$(mktemp -d)"
-          cp dummy.tf "$DIR"
-          cd "$DIR"
-          terraform init && terraform apply --auto-approve
-          echo "::set-output name=dir::$DIR"
+          ls -la
 
-      - name: Run my action
-        uses: ./
-        with:
-          work_dir: '/'
+      # - name: Init and apply terraform 
+      #   run: |
+      #     DIR="$(mktemp -d)"
+      #     cp dummy.tf "$DIR"
+      #     cd "$DIR"
+      #     terraform init && terraform apply --auto-approve
+      #     echo "::set-output name=dir::$DIR"
+
+      # - name: Run my action
+      #   uses: ./
+      #   with:
+      #     work_dir: '/'
