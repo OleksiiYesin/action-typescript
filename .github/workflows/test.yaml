@@ -53,9 +53,7 @@ jobs:
 
       - name: Init and apply terraformsecond
         run: |
-          cd /tmp
-          DIR="faf"
-          mkdir $DIR
+          DIR="$(mktemp -d)"
           cp dummy.tf "$DIR"
           cd "$DIR"
           terraform init && terraform apply --auto-approve
