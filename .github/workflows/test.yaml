@@ -40,23 +40,22 @@ jobs:
       - name: Debug
         run: |
           whoami
-          echo $USER
-          echo $GROUP
-          ls -l /
+          echo $HOME
 
-      # - name: Init and apply terraform 
-      #   run: |
-      #     mkdir bla
-      #     DIR="bla"
-      #     cp dummy.tf "$DIR"
-      #     cd "$DIR"
-      #     terraform init && terraform apply --auto-approve
-      #     echo "::set-output name=dir::$DIR"
+      - name: Init and apply terraform 
+        run: |
+          mkdir bla
+          DIR="bla"
+          cp dummy.tf "$DIR"
+          cd "$DIR"
+          terraform init && terraform apply --auto-approve
+          echo "::set-output name=dir::$DIR"
 
       - name: Init and apply terraformsecond
         run: |
-          mkdir faq
-          DIR="faq"
+          cd /tmp
+          DIR="faf"
+          mkdir $DIR
           cp dummy.tf "$DIR"
           cd "$DIR"
           terraform init && terraform apply --auto-approve
@@ -65,4 +64,4 @@ jobs:
       - name: Run my action
         uses: ./
         with:
-          work_dir: /
+          work_dir: /tmp
