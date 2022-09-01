@@ -1,11 +1,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { setFailed, info, getInput, warning} from '@actions/core';
+import { setFailed, info, getBooleanInput, getInput, warning} from '@actions/core';
 import { getStdOutput } from './res/utils';
 
 
 
-// const dir        : string  = '/';
+// const dir        : string  = '/dir';
 
 
 // const maxAttempts: number  = 3;
@@ -13,8 +13,8 @@ import { getStdOutput } from './res/utils';
 
 
 const dir: string  = getInput('work_dir');
-// const maxAttempts  = getInput('max_attempts');
-// const dryRun      : boolean = getInput('dry_run');
+const maxAttempts: any  = getInput('max_attempts');
+const dryRun: boolean = getBooleanInput('dry_run');
 // const state       : any     = fs.readdirSync(dir).filter(fn => fn.endsWith('.tfstate'))
 
 
@@ -113,6 +113,7 @@ async function outputAllFolders(folderPaths: string[]) {
                   } else {
                     console.log(`FAILED`);   
                   }
+                  
 
                 } else {
                   console.log(`Not resource(s) in ${innerFolder}/${item.name}`);  

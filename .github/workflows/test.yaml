@@ -13,10 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Use Node.js 14.xz
+      - name: Use Node.js 12.xz
         uses: actions/setup-node@v2
         with:
-          node-version: 14.x
+          node-version: 12.x
           cache: 'npm'
           cache-dependency-path: package-lock.json
 
@@ -31,29 +31,9 @@ jobs:
         with:
           terraform_version: 1.1.7
 
-      # - name: Init and Apply terraform
-      #   run: |
-      #     cd ./dir
-      #     terraform init
-      #     terraform apply --auto-approve
-      
-      - name: Debug
-        run: |
-          whoami
-          echo $HOME
-
-      - name: Init and apply terraform 
-        run: |
-          mkdir bla
-          DIR="bla"
-          cp dummy.tf "$DIR"
-          cd "$DIR"
-          terraform init && terraform apply --auto-approve
-          echo "::set-output name=dir::$DIR"
-
       - name: Init and apply terraformsecond
         run: |
-          DIR="$(mktemp -d)"
+          DIR="./dir"
           cp dummy.tf "$DIR"
           cd "$DIR"
           terraform init && terraform apply --auto-approve
@@ -61,5 +41,11 @@ jobs:
 
       - name: Run my action
         uses: ./
+        id: "destroy"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
+          AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_key_id }}
         with:
-          work_dir: /tmp
+          work_dir: ./dir
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key_id: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

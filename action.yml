@@ -6,16 +6,20 @@ inputs:
   work_dir:
     description: Directory
     required: false
-    default: '/'
-  # max_attempts:
-  #   description: Attempts
-  #   required: false
-  #   type: number
-  #   default: 3
-  # dry_run:
-  #   description: Debug
-  #   required: false
-  #   type: number
+    default: './dir'
+  max_attempts:
+    description: Attempts
+    required: false
+    type: number
+    default: 3
+  dry_run:
+    description: Debug
+    required: false
+    type: boolean
+  aws_access_key_id:
+    required: true
+  aws_secret_access_key:
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'
