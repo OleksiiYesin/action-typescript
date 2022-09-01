@@ -33,9 +33,8 @@ jobs:
 
       - name: Init and apply terraformsecond
         run: |
-          DIR="./dir"
-          cp dummy.tf "$DIR"
-          cd "$DIR"
+          cd dir
+          cp dummy.tf ./
           terraform init && terraform apply --auto-approve
           echo "::set-output name=dir::$DIR"
 
