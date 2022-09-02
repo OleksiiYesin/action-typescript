@@ -20,7 +20,7 @@ export const getStdOutput = async(cmd: string, args: string[]): Promise<string> 
     } catch (e: any) {
         info("Error found!")
         error(e.message);
-        throw new Error("Execution Failed")
+//         throw new Error("Execution Failed")
     }
 
     return response.trim();
