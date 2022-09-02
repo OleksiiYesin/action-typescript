@@ -15,7 +15,6 @@ inputs:
   dry_run:
     description: Debug
     required: false
-    type: boolean
   aws_access_key_id:
     required: true
   aws_secret_access_key:
