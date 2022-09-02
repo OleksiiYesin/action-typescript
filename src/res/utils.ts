@@ -18,7 +18,6 @@ export const getStdOutput = async(cmd: string, args: string[]): Promise<string> 
     try {
         await shell.exec(cmd, args, options);
     } catch (e: any) {
-        info("Error found!")
         error(e.message);
         throw new Error("Execution Failed")
     }
