@@ -63,4 +63,4 @@ jobs:
       - name: Run my action
         uses: ./
         with:
-          work_dir: './'
+          work_dir: bla
