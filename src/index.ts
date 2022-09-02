@@ -114,6 +114,7 @@ async function outputAllFolders(folderPaths: string[]) {
                   } catch(e) {
                     console.log(`FAILED!\nContent of ${innerFolder}/${item.name} below\n`)
                     await showFile() 
+                    info(`nContent of [${innerFolder}/${item.name}] below\n`))
                   }
 
                 } else {
