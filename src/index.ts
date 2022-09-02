@@ -14,7 +14,7 @@ import { getStdOutput } from './res/utils';
 
 const dir: string  = getInput('work_dir');
 const maxAttempts: any  = getInput('max_attempts');
-const dryRun: boolean = getBooleanInput('dry_run');
+const dryRun: any = getInput('dry_run');
 // const state       : any     = fs.readdirSync(dir).filter(fn => fn.endsWith('.tfstate'))
 
 
