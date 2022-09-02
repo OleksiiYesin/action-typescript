@@ -112,7 +112,7 @@ async function outputAllFolders(folderPaths: string[]) {
                     await init() && await destroy()
                     console.log(`${shareInfoLen} resource(s) was succesfully destroyed!`);
                   } catch {
-                    info(`ERROR Found!);
+                    info(`ERROR Found!`);
                     await showFile() 
                     info(`\nContent of [${innerFolder}/${item.name}] below\n`);
                   }
