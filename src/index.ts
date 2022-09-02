@@ -5,7 +5,7 @@ import { getStdOutput } from './res/utils';
 
 
 
-const dir        : string  = './';
+const dir        : string  = './dir';
 // const maxAttempts: number  = 3;
 // const dryRun     : boolean = false;
 
@@ -111,8 +111,8 @@ async function outputAllFolders(folderPaths: string[]) {
                     await init() && await destroy()
                     console.log(`${shareInfoLen} resource(s) was succesfully destroyed!`);
                   } catch {
-                    await showFile()
-                    console.log(`FAILED`) 
+                    console.log(`FAILED!\nContent of ${innerFolder}/${item.name} below\n`)
+                    await showFile() 
                   }
 
                 } else {
