@@ -15,10 +15,6 @@ inputs:
   dry_run:
     description: Debug
     required: false
-  aws_access_key_id:
-    required: true
-  aws_secret_access_key:
-    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'
