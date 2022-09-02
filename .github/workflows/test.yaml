@@ -41,6 +41,7 @@ jobs:
         run: |
           echo $HOME
           ls -la $HOME
+          pwd
 
       - name: Init and apply terraform 
         run: |
