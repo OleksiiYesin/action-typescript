@@ -6,6 +6,7 @@ inputs:
   work_dir:
     description: Directory
     required: false
+    default: './dir'
   # max_attempts:
   #   description: Attempts
   #   required: false
