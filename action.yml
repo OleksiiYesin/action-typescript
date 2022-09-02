@@ -6,15 +6,16 @@ inputs:
   work_dir:
     description: Directory
     required: false
-    default: './dir'
-  max_attempts:
-    description: Attempts
-    required: false
-    type: number
-    default: 3
-  dry_run:
-    description: Debug
-    required: false
+    default: '/'
+  # max_attempts:
+  #   description: Attempts
+  #   required: false
+  #   type: number
+  #   default: 3
+  # dry_run:
+  #   description: Debug
+  #   required: false
+  #   type: number
 runs:
   using: 'node12'
   main: 'dist/index.js'
