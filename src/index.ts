@@ -101,6 +101,7 @@ async function outputAllFolders(folderPaths: string[]) {
               if (reader.length !== 0) {
                 const json = JSON.parse(reader.toString())
                 const shareInfoLen = Object.keys(json.resources).length;
+                 
                 const showFile = async () => {return getStdOutput('cat', [`${innerFolder}/${item.name}`])}
                 
                 if(shareInfoLen !== 0) {
@@ -110,7 +111,7 @@ async function outputAllFolders(folderPaths: string[]) {
                   try {
                     await init() && await destroy()
                     console.log(`${shareInfoLen} resource(s) was succesfully destroyed!`);
-                  } catch {
+                  } catch(e) {
                     console.log(`FAILED!\nContent of ${innerFolder}/${item.name} below\n`)
                     await showFile() 
                   }
