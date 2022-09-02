@@ -5,7 +5,7 @@ import { getStdOutput } from './res/utils';
 
 
 
-const dir        : string  = '/';
+const dir        : string  = './';
 // const maxAttempts: number  = 3;
 // const dryRun     : boolean = false;
 
