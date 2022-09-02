@@ -63,5 +63,3 @@ jobs:
 
       - name: Run my action
         uses: ./
-        with:
-          work_dir: /home/runner/action-typescript
