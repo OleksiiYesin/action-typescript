@@ -31,26 +31,21 @@ jobs:
         with:
           terraform_version: 1.1.7
 
-      - name: Debug
-        run: |
-          ls -la
-          pwd
+      # - name: Debug
+      #   run: |
+      #     ls -la
+      #     pwd
       
-      - name: Init and apply terraformsecond
-        run: |
-          mkdir bla
-          cd bla
-          cp dummy.tf ./
-          terraform init && terraform apply --auto-approve
-          echo "::set-output name=dir::$DIR"
+      # - name: Init and apply terraformsecond
+      #   run: |
+      #     mkdir bla
+      #     cd bla
+      #     cp dummy.tf ./
+      #     terraform init && terraform apply --auto-approve
+      #     echo "::set-output name=dir::$DIR"
 
       - name: Run my action
         uses: ./
         id: "destroy"
-        env:
-          AWS_ACCESS_KEY_ID: ${{ inputs.aws_access_key_id }}
-          AWS_SECRET_ACCESS_KEY: ${{ inputs.aws_secret_key_id }}
         with:
           work_dir: ./dir
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key_id: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
