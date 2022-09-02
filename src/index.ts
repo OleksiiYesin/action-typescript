@@ -94,6 +94,7 @@ async function outputAllFolders(folderPaths: string[]) {
             const stateFile        = fs.readdirSync(innerFolder, { withFileTypes: true, encoding: 'utf-8' });
             const init             = async () => {return getStdOutput('terraform', [ `-chdir=${innerFolder}`, 'init' ])};
             const destroy          = async () => {return getStdOutput('terraform', [ `-chdir=${innerFolder}`, 'destroy', '--auto-approve' ])};
+            const showFile         = async () => {return getStdOutput('cat', [`${innerFolder}/${item.name}`])}
             
           stateFile.forEach(async (item) => {
             
@@ -108,9 +109,11 @@ async function outputAllFolders(folderPaths: string[]) {
                   console.log(`\n${innerFolder}/${item.name} has ${shareInfoLen} resource(s)!`);
                   console.log(`Destroying ${shareInfoLen} resource(s)....` );
               
-                  if(await init() && await destroy()){
+                  try {
+                    await init() && await destroy()
                     console.log(`${shareInfoLen} resource(s) was succesfully destroyed!`);
-                  } else {
+                  } catch {
+                    await showFile()
                     console.log(`FAILED`);   
                   }
                   
