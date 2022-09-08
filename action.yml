@@ -7,15 +7,10 @@ inputs:
     description: Directory
     required: false
     default: './dir'
-  # max_attempts:
-  #   description: Attempts
-  #   required: false
-  #   type: number
-  #   default: 3
-  # dry_run:
-  #   description: Debug
-  #   required: false
-  #   type: number
+  aws_access_key_id:
+    required: false
+  aws_secret_access_key:
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
