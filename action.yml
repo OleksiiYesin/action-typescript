@@ -5,7 +5,7 @@ description: 'Custom GH action with TypeScript'
 inputs:
   work_dir:
     description: Directory
-    required: false
+    required: true
     default: './dir'
   aws_access_key_id:
     required: false
