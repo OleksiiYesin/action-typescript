@@ -5,14 +5,14 @@
 | Name | Version |
 |------|---------|
 | aws | ~> 2.20.0 |
-| consul | >= 2.4.0 |
+| consul | >= 2.5.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | aws | ~> 2.20.0 |
-| consul | >= 2.4.0 |
+| consul | >= 2.5.0 |
 
 ## Inputs
 
