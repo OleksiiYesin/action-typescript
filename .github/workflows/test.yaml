@@ -1,63 +1,20 @@
-name: Test
+name: Generate terraform docs
 on:
   push:
     branches:
       - main
-      - develop
+      - test/*
 
 jobs:
-  run-action:
-    name: Run action
+  docs:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js 14.xz
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14.x
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.1.7
-
-      - name: Debug
-        run: |
-          echo $HOME
-          ls -la $HOME
-          pwd
-
-      - name: Init and apply terraform 
-        run: |
-          mkdir bla
-          DIR="bla"
-          cp dummy.tf "$DIR"
-          cd "$DIR"
-          terraform init && terraform apply --auto-approve
-          echo "::set-output name=dir::$DIR"
-
-      - name: Init and apply terraformsecond
-        run: |
-          mkdir faq
-          DIR="faq"
-          cp dummy.tf "$DIR"
-          cd "$DIR"
-          terraform init && terraform apply --auto-approve
-          echo "::set-output name=dir::$DIR"
-
-      - name: Run my action
-        uses: ./
-        with:
-          work_dir: ./dir
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - uses: actions/checkout@v2
+    
+    - name: Render terraform docs inside the USAGE.md and push changes back to PR branch
+      uses: Dirrk/terraform-docs@v1.0.8
+      with:
+        tf_docs_working_dir: .
+        tf_docs_output_file: USAGE.md
+        tf_docs_output_method: inject
+        tf_docs_git_push: 'true'
