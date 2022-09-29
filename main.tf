@@ -10,7 +10,7 @@ provider "consul" {
 
 terraform {
   required_providers {
-    consul = ">= 2.4.0"
+    consul = ">= 2.5.0"
   }
 }
 
