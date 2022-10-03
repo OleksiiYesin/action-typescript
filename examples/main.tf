@@ -30,6 +30,7 @@ data "consul_key" "test" {
 variable "vpc_id" {
   description = "The id of the vpc"
   type        = string
+  default     = "vpc"
 }
 
 variable "subnet_ids" {
