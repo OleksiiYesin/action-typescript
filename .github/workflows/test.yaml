@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - test/*
+#       - test/*
 
 jobs:
   docs:
@@ -17,4 +17,5 @@ jobs:
         working-dir: ./,examples
         output-file: README.md
         output-method: replace
-        git-push: true
+#         git-push: true
+        fail-on-diff: true
