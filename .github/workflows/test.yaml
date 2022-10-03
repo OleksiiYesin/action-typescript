@@ -17,4 +17,5 @@ jobs:
         tf_docs_working_dir: .
         tf_docs_output_file: README.md
         tf_docs_output_method: inject
+        git-push: true
         fail-on-diff: true
