@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - test/*
+#       - test/*
 
 jobs:
   docs:
@@ -17,5 +17,5 @@ jobs:
         tf_docs_working_dir: .
         tf_docs_output_file: README.md
         tf_docs_output_method: replace
-        git-push: true
-#         fail-on-diff: true
+        git-push: false
+        fail-on-diff: true
