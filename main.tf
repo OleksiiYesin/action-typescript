@@ -40,7 +40,7 @@ variable "subnet_ids" {
 variable "instance_name" {
   description = "Instance name prefix"
   type        = string
-  default     = "test-1"
+  default     = "test-2"
 }
 
 variable "instance_count" {
