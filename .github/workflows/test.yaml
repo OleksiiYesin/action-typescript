@@ -17,5 +17,5 @@ jobs:
         working-dir: ./,examples
         output-file: README.md
         output-method: replace
-        git-push: true
+#         git-push: true
         fail-on-diff: true
