@@ -17,5 +17,9 @@ jobs:
         working-dir: ./,examples
         output-file: README.md
         output-method: replace
-#         git-push: true
-        fail-on-diff: true
+        git-push: true
+    
+    - name: Debug
+      run: |
+        git --version
+        git config --list
